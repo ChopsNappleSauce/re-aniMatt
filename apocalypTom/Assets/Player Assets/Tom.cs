@@ -194,6 +194,7 @@ public class Tom : MonoBehaviour {
 			}
 
 			//Space to grab resources
+			/*
 			if(Input.GetKey(KeyCode.Space))
 			{
 				//Get all sticks and pick up ones close enough
@@ -234,6 +235,7 @@ public class Tom : MonoBehaviour {
 					}
 				}
 			}
+			*/
 
 			float angle = Mathf.Atan2 (Input.mousePosition.y - Screen.height / 2, Input.mousePosition.x - Screen.width / 2) * Mathf.Rad2Deg;
 			Vector3 currAngles = transform.eulerAngles;

@@ -17,4 +17,20 @@ public class Item {
 		Resource,
 		Consumable
 	}
+
+	public Item(string name, int ID, string desc, int power, int speed, ItemType type)
+	{
+		itemName = name;
+		itemID = ID;
+		itemDesc = desc;
+		itemIcon = Resources.Load<Texture2D> (type.ToString () + " Assets/" + name);
+		itemPower = power;
+		itemSpeed = speed;
+		itemType = type;
+	}
+
+	public Item()
+	{
+
+	}
 }
