@@ -5,7 +5,7 @@
 	<Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
 	<ProductVersion>10.0.20506</ProductVersion>
 	<SchemaVersion>2.0</SchemaVersion>
-	<ProjectGuid>{FBB0A568-1E68-8C81-0F31-3617EECA2E51}</ProjectGuid>
+	<ProjectGuid>{336F0505-D982-0F41-67B4-D52B411BBE99}</ProjectGuid>
 	<OutputType>Library</OutputType>
 	<AppDesignerFolder>Properties</AppDesignerFolder>
 	<RootNamespace></RootNamespace>
@@ -51,6 +51,8 @@
      <Compile Include="Assets\Cube Assets\Cube.cs" />
      <Compile Include="Assets\Enemy Assets\plainZombie.cs" />
      <Compile Include="Assets\Hex Assets\GridManager.cs" />
+     <Compile Include="Assets\Inventory Assets\Item.cs" />
+     <Compile Include="Assets\Inventory Assets\ItemDatabase.cs" />
      <Compile Include="Assets\Player Assets\Tom.cs" />
      <Compile Include="Assets\gui.cs" />
      <Compile Include="Assets\lights.cs" />
