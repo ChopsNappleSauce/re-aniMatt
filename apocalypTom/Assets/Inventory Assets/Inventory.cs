@@ -14,6 +14,8 @@ public class Inventory : MonoBehaviour {
 	public List<Item> slots = new List<Item> ();
 	private ItemDatabase database;
 	private bool showInv;
+	private bool showToolTip;
+	private string toolTip;
 	//private bool[,] invButtons;
 
 	// Use this for initialization
@@ -126,6 +128,9 @@ public class Inventory : MonoBehaviour {
 
 	void OnGUI()
 	{
+		showToolTip = false;
+		toolTip = "";
+
 		GUI.skin = skin;
 		if(showInv)
 		{
@@ -135,6 +140,12 @@ public class Inventory : MonoBehaviour {
 		for(int i = 0; i < inventory.Count; i++)
 		{
 			GUI.Label(new Rect(100, 20*i, 200, 20), inventory[i].itemName);
+		}
+
+		if(showToolTip)
+		{
+			GUI.Box(new Rect(Event.current.mousePosition.x, Event.current.mousePosition.y, 200, 200), toolTip,
+			        skin.GetStyle("Tooltip"));
 		}
 	}
 
@@ -158,6 +169,11 @@ public class Inventory : MonoBehaviour {
 				if(slots[flatIndex].itemName != null)
 				{
 					GUI.DrawTexture(slotRect, slots[flatIndex].itemIcon);
+					if(slotRect.Contains(Event.current.mousePosition))
+					{
+						toolTip = CreateToolTip(slots[flatIndex]);
+						showToolTip = true;
+					}
 				}
 
 				currX += (invSide + boxRadius);
@@ -165,6 +181,13 @@ public class Inventory : MonoBehaviour {
 			currY += (invSide + boxRadius);
 			currX = invLoc.x + boxRadius;
 		}
+	}
+
+	string CreateToolTip(Item item)
+	{
+		toolTip = "<color=#FFFFFF>" + item.itemName + "</color>\n\n" + 
+			"<color=#BFC272>" + item.itemDesc + "</color>";
+		return toolTip;
 	}
 
 	bool AddItem(int ID)
