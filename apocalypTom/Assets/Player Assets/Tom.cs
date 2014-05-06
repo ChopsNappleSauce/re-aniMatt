@@ -17,7 +17,8 @@ public class Tom : MonoBehaviour {
 	public Transform desertZombie;
 
 	public Transform stick;
-	public Texture invStick;
+	public Transform rock;
+	public Transform flax;
 
 	public Rigidbody projectile;
 
@@ -134,7 +135,9 @@ public class Tom : MonoBehaviour {
 		// Holy Shit Batman, can we get more verbose?
 		switch (GameObject.FindGameObjectWithTag ("MainCamera").GetComponent<GridManager>().getBiome (new Vector3(x, 0f, z))) {
 		case 1:
-			//GameObject.Instantiate (plainZombie, new Vector3(x, 0f, z), Quaternion.Euler(270, 90, 0));
+			GameObject.Instantiate (flax, new Vector3(x, 0f, z), Quaternion.Euler(flax.transform.eulerAngles.x,
+			                                                                      flax.transform.eulerAngles.y,
+			                                                                      flax.transform.eulerAngles.z));
 			break;
 		case 2:
 			GameObject.Instantiate (stick, new Vector3(x, 0f, z), Quaternion.Euler(stick.transform.eulerAngles.x,
@@ -142,7 +145,9 @@ public class Tom : MonoBehaviour {
 			                                                                       stick.transform.eulerAngles.z));
 			break;
 		case 3:
-			//GameObject.Instantiate (desertZombie, new Vector3(x, 0f, z), Quaternion.Euler(270, 90, 0));
+			GameObject.Instantiate (rock, new Vector3(x, 0f, z), Quaternion.Euler(rock.transform.eulerAngles.x,
+			                                                                      rock.transform.eulerAngles.y,
+			                                                                      rock.transform.eulerAngles.z));
 			break;
 		}
 	}

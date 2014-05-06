@@ -71,6 +71,56 @@ public class Inventory : MonoBehaviour {
 					Destroy(stick);
 				}
 			}
+
+			GameObject[] rocks = GameObject.FindGameObjectsWithTag("rock");
+			foreach(GameObject rock in rocks)
+			{
+				float xSDif = rock.transform.position.x - this.transform.position.x;
+				float ySDif = rock.transform.position.z - this.transform.position.z;
+				float sDist = Mathf.Sqrt(Mathf.Pow(xSDif, 2f) + Mathf.Pow(ySDif, 2f));
+				if(sDist < grabRadius)
+				{
+					bool foundSpot = false;
+					if(AddItem(2))
+						foundSpot = true;
+					
+					if(foundSpot)
+					{
+						Debug.Log("Open Inv Spot");
+					}
+					else
+					{
+						Debug.Log("No Open Inv Spaces");
+					}
+					
+					Destroy(rock);
+				}
+			}
+
+			GameObject[] flaxes = GameObject.FindGameObjectsWithTag("flax");
+			foreach(GameObject flax in flaxes)
+			{
+				float xSDif = flax.transform.position.x - this.transform.position.x;
+				float ySDif = flax.transform.position.z - this.transform.position.z;
+				float sDist = Mathf.Sqrt(Mathf.Pow(xSDif, 2f) + Mathf.Pow(ySDif, 2f));
+				if(sDist < grabRadius)
+				{
+					bool foundSpot = false;
+					if(AddItem(5))
+						foundSpot = true;
+					
+					if(foundSpot)
+					{
+						Debug.Log("Open Inv Spot");
+					}
+					else
+					{
+						Debug.Log("No Open Inv Spaces");
+					}
+					
+					Destroy(flax);
+				}
+			}
 		}
 	}
 

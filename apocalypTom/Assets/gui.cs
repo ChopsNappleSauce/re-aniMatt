@@ -5,15 +5,9 @@ using System.Collections;
 public class gui : MonoBehaviour {
 
 	private string lastClicked;
-	private Texture[] gridTextures;
 	private static int gridSelected;
 
 	void Start () {
-	}
-
-	public void setTexture(Texture texture, int coord)
-	{
-		gridTextures [coord] = texture;
 	}
 
 	// Update is called once per frame

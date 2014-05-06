@@ -484,8 +484,6 @@ public class GridManager: MonoBehaviour
 		Vector3 currCore = coreArray[core];
 		int hexType = (int)currCore.z;
 		Vector2 currPos;
-		int tilesPlaced = 0; //how many tiles were able to be placed in this ring
-		//cores expire when this number is 0 after the whole ring is tried
 		
 		//if core is in even row number top and bottom x coords are -1
 		bool isEven;

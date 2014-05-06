@@ -5,7 +5,7 @@ public class lights : MonoBehaviour {
 	public float xOffset;
 	public float zOffset;
 
-	private GameObject camera;
+	private new GameObject camera;
 	
 	// Update is called once per frame
 	void LateUpdate () {
