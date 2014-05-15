@@ -1,8 +1,8 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class Camera : MonoBehaviour {
-	public float followDistance = 0;
+public class MainCamera : MonoBehaviour {
+	public float followDistance = .5f;
 
 	private float trackSmooth = 1f;
 	
@@ -31,6 +31,8 @@ public class Camera : MonoBehaviour {
 
 	public void LateUpdate() {
 		if(target) {
+			//zAdj = target.transform.position.z - .25;
+
 			if(Mathf.Abs(transform.position.x - target.transform.position.x) > xMargin){
 				x = Mathf.Lerp (transform.position.x, target.transform.position.x, trackSmooth * Time.deltaTime);
 			}
@@ -44,7 +46,8 @@ public class Camera : MonoBehaviour {
 			target = GameObject.FindGameObjectWithTag ("Player");
 		}
 	}
-	
+
+
 	private float IncrementTowards(float current, float target, float accel) {
 		if (current == target) {
 			return current;
@@ -54,4 +57,5 @@ public class Camera : MonoBehaviour {
 			return (dir == Mathf.Sign (target - current)) ? current : target;
 		}
 	}
+
 }

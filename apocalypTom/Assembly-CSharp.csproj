@@ -47,7 +47,7 @@
   </ItemGroup>
   <ItemGroup>
      <Compile Include="Assets\Bullet Assets\bullet.cs" />
-     <Compile Include="Assets\Camera Assets\Camera.cs" />
+     <Compile Include="Assets\Camera Assets\MainCamera.cs" />
      <Compile Include="Assets\Cube Assets\Cube.cs" />
      <Compile Include="Assets\Enemy Assets\plainZombie.cs" />
      <Compile Include="Assets\Hex Assets\GridManager.cs" />
