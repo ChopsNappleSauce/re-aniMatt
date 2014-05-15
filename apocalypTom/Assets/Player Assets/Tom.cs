@@ -249,27 +249,22 @@ public class Tom : MonoBehaviour {
 
 			if (Input.GetMouseButtonDown (0)) {
 					if (ammo > 0) {
-							anim.Play ("Strike");
+							//anim.Play ("Strike");
 
 							ammo--;
 							Rigidbody bullet = Instantiate (projectile, transform.position, transform.rotation) as Rigidbody;
 							bullet.velocity = transform.TransformDirection (new Vector3 (-bulletSpeed, 0, 0));
-
-
 					}
-				//GameObject button = GameObject.Find("inv0:0");
-				//GUITexture buttonTexture = button.GetComponent<GUITexture> ();
-				//buttonTexture.texture = invStick;
 			}
 
 			if ((xDistance == 0) && (yDistance == 0)) {
-					anim.Play ("Idle2");
+					anim.Play ("Idle");
 			}
 
 			if ((xDistance != 0) || (yDistance != 0)) {
-					anim.Play ("Run2");
+					anim.Play ("Run1");
 			} else {
-					anim.Play ("Idle2");
+					anim.Play ("Idle");
 			}
 
 			// rotate
