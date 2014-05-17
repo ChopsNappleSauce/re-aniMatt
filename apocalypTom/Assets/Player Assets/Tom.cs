@@ -19,9 +19,9 @@ public class Tom : MonoBehaviour {
 	public Transform stick;
 	public Transform rock;
 	public Transform flax;
+	public Transform feather;
 
 	public Rigidbody projectile;
-
 
 	public float bulletSpeed = 1;
 
@@ -124,6 +124,14 @@ public class Tom : MonoBehaviour {
 		
 		float x = transform.position.x + circVector.x;
 		float z = transform.position.z + circVector.z;
+
+		int deg2 = UnityEngine.Random.Range (0, 360);
+		Vector3 circVector2 = new Vector3(spawnRadius, 0f, 0f);
+		
+		circVector2 = Quaternion.AngleAxis (deg2, Vector3.up) * circVector2;
+		
+		float x2 = transform.position.x + circVector2.x;
+		float z2 = transform.position.z + circVector2.z;
 		
 		// Holy Shit Batman, can we get more verbose?
 		switch (GameObject.FindGameObjectWithTag ("MainCamera").GetComponent<GridManager>().getBiome (new Vector3(x, 0f, z))) {
@@ -136,6 +144,9 @@ public class Tom : MonoBehaviour {
 			GameObject.Instantiate (stick, new Vector3(x, 0f, z), Quaternion.Euler(stick.transform.eulerAngles.x,
 			                                                                       stick.transform.eulerAngles.y,
 			                                                                       stick.transform.eulerAngles.z));
+			GameObject.Instantiate (feather, new Vector3(x2, 0f, z2), Quaternion.Euler(feather.transform.eulerAngles.x,
+			                                                                         feather.transform.eulerAngles.y,
+			                                                                         feather.transform.eulerAngles.z));
 			break;
 		case 3:
 			GameObject.Instantiate (rock, new Vector3(x, 0f, z), Quaternion.Euler(rock.transform.eulerAngles.x,

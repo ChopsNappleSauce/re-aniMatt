@@ -67,14 +67,8 @@ public class Inventory : MonoBehaviour {
 					
 					if(foundSpot)
 					{
-						Debug.Log("Open Inv Spot");
+						Destroy(stick);
 					}
-					else
-					{
-						Debug.Log("No Open Inv Spaces");
-					}
-					
-					Destroy(stick);
 				}
 			}
 
@@ -92,14 +86,8 @@ public class Inventory : MonoBehaviour {
 					
 					if(foundSpot)
 					{
-						Debug.Log("Open Inv Spot");
+						Destroy(rock);
 					}
-					else
-					{
-						Debug.Log("No Open Inv Spaces");
-					}
-					
-					Destroy(rock);
 				}
 			}
 
@@ -117,14 +105,27 @@ public class Inventory : MonoBehaviour {
 					
 					if(foundSpot)
 					{
-						Debug.Log("Open Inv Spot");
+						Destroy(flax);
 					}
-					else
-					{
-						Debug.Log("No Open Inv Spaces");
-					}
+				}
+			}
+
+			GameObject[] feathers = GameObject.FindGameObjectsWithTag("feather");
+			foreach(GameObject feather in feathers)
+			{
+				float xSDif = feather.transform.position.x - this.transform.position.x;
+				float ySDif = feather.transform.position.z - this.transform.position.z;
+				float sDist = Mathf.Sqrt(Mathf.Pow(xSDif, 2f) + Mathf.Pow(ySDif, 2f));
+				if(sDist < grabRadius)
+				{
+					bool foundSpot = false;
+					if(AddItem(9))
+						foundSpot = true;
 					
-					Destroy(flax);
+					if(foundSpot)
+					{
+						Destroy(feather);
+					}
 				}
 			}
 		}
@@ -154,11 +155,6 @@ public class Inventory : MonoBehaviour {
 		{
 			GUI.DrawTexture(new Rect(Event.current.mousePosition.x, Event.current.mousePosition.y, invSide, invSide),
 			                draggedItem.itemIcon);
-		}
-
-		for(int i = 0; i < inventory.Count; i++)
-		{
-			GUI.Label(new Rect(100, 20*i, 200, 20), inventory[i].itemName);
 		}
 	}
 
