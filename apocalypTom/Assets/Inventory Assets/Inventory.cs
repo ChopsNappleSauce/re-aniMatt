@@ -18,6 +18,9 @@ public class Inventory : MonoBehaviour {
 	private string toolTip;
 	private Rect invRect;
 	private bool mouseOnInv;
+	private bool draggingItem;
+	private Item draggedItem;
+	private int prevIndex;
 
 	// Use this for initialization
 	void Start () {
@@ -136,33 +139,40 @@ public class Inventory : MonoBehaviour {
 		if(showInv)
 		{
 			DrawInventory();
+			if(showToolTip)
+			{
+				GUI.Box(new Rect(Event.current.mousePosition.x, Event.current.mousePosition.y, 200, 200), toolTip,
+				        skin.GetStyle("Tooltip"));
+			}
 		}
 		else
 		{
 			mouseOnInv = false;
 		}
 
+		if(draggingItem)
+		{
+			GUI.DrawTexture(new Rect(Event.current.mousePosition.x, Event.current.mousePosition.y, invSide, invSide),
+			                draggedItem.itemIcon);
+		}
+
 		for(int i = 0; i < inventory.Count; i++)
 		{
 			GUI.Label(new Rect(100, 20*i, 200, 20), inventory[i].itemName);
-		}
-
-		if(showToolTip)
-		{
-			GUI.Box(new Rect(Event.current.mousePosition.x, Event.current.mousePosition.y, 200, 200), toolTip,
-			        skin.GetStyle("Tooltip"));
 		}
 	}
 
 	void DrawInventory()
 	{
+		Event e = Event.current;
+
 		Vector2 invDim = new Vector2((boxRadius + (invRows * (invSide + boxRadius))),
 		                             (headHeight + boxRadius + (invRows * (invSide + boxRadius))));
 		Vector2 invLoc = new Vector2 ((Screen.width - boxRadius - invDim.x),
 		                              (Screen.height - boxRadius - invDim.y));
 		invRect = new Rect (invLoc.x, invLoc.y, invDim.x, invDim.y);
 		GUI.Box (invRect, "Inventory");
-		if (invRect.Contains (Event.current.mousePosition))
+		if (invRect.Contains (e.mousePosition))
 				mouseOnInv = true;
 		else
 				mouseOnInv = false;
@@ -180,10 +190,38 @@ public class Inventory : MonoBehaviour {
 				if(slots[flatIndex].itemName != null)
 				{
 					GUI.DrawTexture(slotRect, slots[flatIndex].itemIcon);
-					if(slotRect.Contains(Event.current.mousePosition))
+					if(slotRect.Contains(e.mousePosition))
 					{
 						toolTip = CreateToolTip(slots[flatIndex]);
 						showToolTip = true;
+
+						if(e.button == 0 && e.type == EventType.MouseDrag && !draggingItem)
+						{
+							draggingItem = true;
+							prevIndex = flatIndex;
+							draggedItem = slots[flatIndex];
+							inventory[flatIndex] = new Item();
+						}
+
+						if(e.button == 0 && e.type == EventType.MouseUp && draggingItem)
+						{
+							inventory[prevIndex] = inventory[flatIndex];
+							inventory[flatIndex] = draggedItem;
+							draggingItem = false;
+							draggedItem = null;
+						}
+					}
+				}
+				else
+				{
+					if(slotRect.Contains(e.mousePosition))
+					{
+						if(e.button == 0 && e.type == EventType.MouseUp && draggingItem)
+						{
+							inventory[flatIndex] = draggedItem;
+							draggingItem = false;
+							draggedItem = null;
+						}
 					}
 				}
 
