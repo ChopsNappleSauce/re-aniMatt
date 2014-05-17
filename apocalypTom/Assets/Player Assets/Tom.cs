@@ -32,19 +32,12 @@ public class Tom : MonoBehaviour {
 	private int time = 0;
 	private int counter = 0;
 	private int kills = 0;
-	private Vector2[,] inv;
 
 	private Animator anim;
 
 	// Use this for initialization
 	void Start () {
 		anim = GetComponent<Animator> ();
-		inv = new Vector2[invRows, invRows];
-	}
-
-	public Vector2[,] getInventory()
-	{
-		return inv;
 	}
 
 	public void takeDamage (float damage) {
@@ -198,63 +191,23 @@ public class Tom : MonoBehaviour {
 					transform.Translate (0f, 0f, -moveSpeed * Time.deltaTime);
 			}
 
-			//Space to grab resources
-			/*
-			if(Input.GetKey(KeyCode.Space))
-			{
-				//Get all sticks and pick up ones close enough
-				GameObject[] sticks = GameObject.FindGameObjectsWithTag("stick");
-				foreach(GameObject stick in sticks)
-				{
-					float xSDif = stick.transform.position.x - this.transform.position.x;
-					float ySDif = stick.transform.position.z - this.transform.position.z;
-					float sDist = Mathf.Sqrt(Mathf.Pow(xSDif, 2f) + Mathf.Pow(ySDif, 2f));
-					if(sDist < grabRadius)
-					{
-						bool foundSpot = false;
-						for(int i = 0; i < invRows; i++)
-						{
-							for(int j = 0; j < invRows; j++)
-							{
-								//Debug.Log("[" + i + "," + j + "]:" + inv[i,j].x);
-								if(inv[i,j].x < 2)
-								{
-									inv[i,j].x = 1;
-									inv[i,j].y += 1;
-									foundSpot = true;
-									break;
-								}
-							}
-						}
-
-						if(foundSpot)
-						{
-							Debug.Log("Open Inv Spot");
-						}
-						else
-						{
-							Debug.Log("No Open Inv Spaces");
-						}
-
-						Destroy(stick);
-					}
-				}
-			}
-			*/
-
 			float angle = Mathf.Atan2 (Input.mousePosition.y - Screen.height / 2, Input.mousePosition.x - Screen.width / 2) * Mathf.Rad2Deg;
 			Vector3 currAngles = transform.eulerAngles;
 			Quaternion target = Quaternion.Euler (currAngles.x, 180f - angle, currAngles.z);
 			transform.rotation = Quaternion.Slerp (transform.rotation, target, Time.deltaTime * 15f);
 
 			if (Input.GetMouseButtonDown (0)) {
+				Inventory inv = GameObject.FindGameObjectWithTag ("Inventory").GetComponent<Inventory>();
+				if(!inv.cursorInInv())
+				{
 					if (ammo > 0) {
-							//anim.Play ("Strike");
+					//print (inv.cursorInInv());
 
 							ammo--;
 							Rigidbody bullet = Instantiate (projectile, transform.position, transform.rotation) as Rigidbody;
 							bullet.velocity = transform.TransformDirection (new Vector3 (-bulletSpeed, 0, 0));
 					}
+				}
 			}
 
 			if ((xDistance == 0) && (yDistance == 0)) {
@@ -272,19 +225,6 @@ public class Tom : MonoBehaviour {
 			moveVec.Normalize ();
 			moveVec *= moveSpeed * Time.deltaTime;
 			transform.Translate (moveVec, Space.World);
-
-			/*
-			string invStr = "[";
-			for(int i = 0; i < invRows; i++)
-			{
-				for(int j = 0; j < invRows; j++)
-				{
-					invStr += "(" + inv[i,j].x + "," + inv[i,j].y + ")";
-				}
-				invStr += "\n";
-			}
-			Debug.Log(invStr + "]");
-			*/
 		}
 	}
 }

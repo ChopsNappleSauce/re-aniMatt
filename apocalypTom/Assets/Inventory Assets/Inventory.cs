@@ -16,7 +16,8 @@ public class Inventory : MonoBehaviour {
 	private bool showInv;
 	private bool showToolTip;
 	private string toolTip;
-	//private bool[,] invButtons;
+	private Rect invRect;
+	private bool mouseOnInv;
 
 	// Use this for initialization
 	void Start () {
@@ -30,8 +31,8 @@ public class Inventory : MonoBehaviour {
 		AddItem (7);
 		AddItem (8);
 
-		//print (Contains (0));
-		//print (Contains (4));
+		invRect = new Rect ();
+		mouseOnInv = false;
 	}
 	
 	// Update is called once per frame
@@ -136,6 +137,10 @@ public class Inventory : MonoBehaviour {
 		{
 			DrawInventory();
 		}
+		else
+		{
+			mouseOnInv = false;
+		}
 
 		for(int i = 0; i < inventory.Count; i++)
 		{
@@ -155,7 +160,13 @@ public class Inventory : MonoBehaviour {
 		                             (headHeight + boxRadius + (invRows * (invSide + boxRadius))));
 		Vector2 invLoc = new Vector2 ((Screen.width - boxRadius - invDim.x),
 		                              (Screen.height - boxRadius - invDim.y));
-		GUI.Box (new Rect (invLoc.x, invLoc.y, invDim.x, invDim.y), "Inventory");
+		invRect = new Rect (invLoc.x, invLoc.y, invDim.x, invDim.y);
+		GUI.Box (invRect, "Inventory");
+		if (invRect.Contains (Event.current.mousePosition))
+				mouseOnInv = true;
+		else
+				mouseOnInv = false;
+
 		float currX = invLoc.x + boxRadius;
 		float currY = invLoc.y + boxRadius + headHeight;
 		for(int y = 0; y < invRows; y++)
@@ -231,5 +242,10 @@ public class Inventory : MonoBehaviour {
 				return true;
 		}
 		return false;
+	}
+
+	public bool cursorInInv()
+	{
+		return mouseOnInv;
 	}
 }
