@@ -18,7 +18,6 @@ public class gui : MonoBehaviour {
 		GUI.TextArea(new Rect(5, Screen.height - 25, 85, 20), "Health: " + tom.getHealth().ToString());
 		GUI.TextArea (new Rect(5, Screen.height - 50, 85, 20), "Ammo: " + tom.getAmmo().ToString());
 		GUI.TextArea (new Rect(5, 5, 85, 20), "Kills: " + tom.getKills().ToString());
-		GUI.TextArea (new Rect(Screen.width - 90, 5, 85, 20), "Time: " + tom.getTime().ToString());
 
 		//bool testButtonTwo = false;
 		if (GameObject.FindGameObjectWithTag ("Player").GetComponent<Tom>().getHealth() <= 0) 
