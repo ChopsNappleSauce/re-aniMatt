@@ -13,27 +13,51 @@ public class CraftingBook : MonoBehaviour {
 	public Vector2 scrollPosition = Vector2.zero;
 
 	private Recipes recipes;
+	private bool showBook;
+	private bool showToolTip;
+	private string toolTip;
 
 	// Use this for initialization
 	void Start () {
 		recipes = GameObject.FindGameObjectWithTag ("Recipes").GetComponent<Recipes>();
+		showBook = true;
 	}
 	
 	// Update is called once per frame
 	void Update () {
-	
+		if(Input.GetKeyDown(KeyCode.C))
+		{
+			showBook = !showBook;
+		}
 	}
 
 	void OnGUI()
 	{
-		//print ("RNum: " + recipes.recipes.Count);//check foreach
+		showToolTip = false;
+		toolTip = "";
+
+		if(showBook)
+		{
+			DrawBook ();
+			if(showToolTip)
+			{
+				GUI.Box(new Rect(Event.current.mousePosition.x, Event.current.mousePosition.y, 175, 150), toolTip);
+			}
+		}
+	}
+
+	void DrawBook()
+	{
+		Event e = Event.current;
+
 		Vector2 invLoc = new Vector2 ((Screen.width - boxRadius - boxWidth), boxRadius);
 		Vector2 invDim = new Vector2 ((Screen.width - invLoc.x - boxRadius), 
 		                              (Screen.height / 2 - (2 * boxRadius)) - bottombuffer);
 		Rect invRect = new Rect (invLoc.x, invLoc.y, invDim.x, invDim.y);
-
+		GUI.Box (invRect, "Recipes");
+		
 		float listHeight = (recipes.recipes.Count * (recipeHeight + boxRadius)) - boxRadius;
-
+		
 		scrollPosition = GUI.BeginScrollView(new Rect(invLoc.x + boxRadius, invLoc.y + boxRadius + headHeight, 
 		                                              invDim.x - (2 * boxRadius), invDim.y - (2 * boxRadius) - headHeight), 
 		                                     scrollPosition, 
@@ -41,26 +65,33 @@ public class CraftingBook : MonoBehaviour {
 		int currRecipe = 0;
 		foreach(Recipe recipe in recipes.recipes)
 		{
-			//print(recipe.result);
-			Rect recipeRect = new Rect(invLoc.x + boxRadius, 
-			                           invLoc.y + boxRadius + headHeight + (currRecipe * (recipeHeight + boxRadius)),
+			Rect recipeRect = new Rect(0, currRecipe * (recipeHeight + boxRadius),
 			                           invDim.x - (2 * boxRadius),
 			                           recipeHeight);
-			//print(recipeRect.ToString());
-			GUI.Button(new Rect(0, 
-			                    currRecipe * (recipeHeight + boxRadius),
-			                    invDim.x - (2 * boxRadius),
-			                    recipeHeight), recipe.result);
-			currRecipe++;
-		}
-		/*
-		GUI.Button(new Rect(0, 0, 100, 20), "Top-left");
-		GUI.Button(new Rect(120, 0, 100, 20), "Top-right");
-		GUI.Button(new Rect(0, 180, 100, 20), "Bottom-left");
-		GUI.Button(new Rect(120, 180, 100, 20), "Bottom-right");
-		*/
-		GUI.EndScrollView();
+			GUI.Button(recipeRect, recipe.result);
 
-		GUI.Box (invRect, "Recipes");
+			if(recipeRect.Contains(e.mousePosition))
+			{
+				toolTip = CreateToolTip(recipe);
+				//print(toolTip);
+				showToolTip = true;
+			}
+				
+				currRecipe++;
+		}
+		GUI.EndScrollView();
+	}
+
+	string CreateToolTip(Recipe recipe)
+	{
+		toolTip = "<color=#FFFFFF>Required items:</color>\n\n<color=#BFC272>";
+
+		foreach(string ingredient in recipe.ingredients)
+		{
+			toolTip += ingredient + "\n";
+		}
+
+		toolTip += "</color>";
+		return toolTip;
 	}
 }
