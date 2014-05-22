@@ -36,6 +36,7 @@ public class Inventory : MonoBehaviour {
 
 		invRect = new Rect ();
 		mouseOnInv = false;
+		showInv = true;
 	}
 	
 	// Update is called once per frame
@@ -167,7 +168,7 @@ public class Inventory : MonoBehaviour {
 		Vector2 invLoc = new Vector2 ((Screen.width - boxRadius - invDim.x),
 		                              (Screen.height - boxRadius - invDim.y));
 		invRect = new Rect (invLoc.x, invLoc.y, invDim.x, invDim.y);
-		GUI.Box (invRect, "Inventory");
+		GUI.Box (invRect, "<size=14>Inventory</size>");
 		if (invRect.Contains (e.mousePosition))
 				mouseOnInv = true;
 		else
