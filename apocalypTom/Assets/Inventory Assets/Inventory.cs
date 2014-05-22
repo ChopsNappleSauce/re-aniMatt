@@ -30,9 +30,6 @@ public class Inventory : MonoBehaviour {
 			inventory.Add(new Item());
 		}
 		database = GameObject.FindGameObjectWithTag ("ItemDatabase").GetComponent<ItemDatabase>();
-		AddItem (13);
-		AddItem (7);
-		AddItem (8);
 
 		invRect = new Rect ();
 		mouseOnInv = false;
@@ -207,6 +204,18 @@ public class Inventory : MonoBehaviour {
 							draggingItem = false;
 							draggedItem = null;
 						}
+
+						if(e.button == 1 && e.type == EventType.MouseDown)
+						{
+							//RemoveItem(slots[flatIndex].itemID);
+							//print(ContainsQuantity(13, 3));
+							/*
+							if(ContainsQuantity(13, 3))
+							{
+								RemoveItems(13, 3);
+							}
+							*/
+						}
 					}
 				}
 				else
@@ -269,6 +278,25 @@ public class Inventory : MonoBehaviour {
 		return false;
 	}
 
+	public bool RemoveItems(int ID, int quantity)
+	{
+		if(!ContainsQuantity(ID, quantity))
+		   return false;
+
+		bool allRemoved = true;
+
+		for(int i = 0; i < quantity; i++)
+		{
+			if(!RemoveItem(ID))
+			{
+				allRemoved = false;
+				break;
+			}
+		}
+
+		return allRemoved;
+	}
+
 	bool Contains(int ID)
 	{
 		for(int i = 0; i < inventory.Count; i++)
@@ -277,6 +305,21 @@ public class Inventory : MonoBehaviour {
 				return true;
 		}
 		return false;
+	}
+
+	bool ContainsQuantity(int ID, int quantity)
+	{
+		int itemCount = 0;
+		for(int i = 0; i < inventory.Count; i++)
+		{
+			if(inventory[i].itemID == ID)
+				itemCount++;
+		}
+
+		if(itemCount >= quantity)
+			return true;
+		else
+			return false;
 	}
 
 	public bool cursorInInv()
